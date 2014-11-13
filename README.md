@@ -20,7 +20,7 @@ Activity 2 GamePlay:
 This activity will first show the chosen picture and a countdown from 3 until 1. Thereafter the gameboard
 will be loaded in order for the user to start playing the game. The default difficulty level will be medium.
 
-IMAGE2
+![Second Activity](https://github.com/jelleswester/npuzzle/blob/master/design_doc_img/third_screen_puzzle.png)
 
 In order to create the board, the Bitmap class will be used. The functions of that class that will be used 
 include BitmapFactory.decodeResource, Bitmap.createScaledBitMap and Bitmap.createBitmap.
@@ -49,6 +49,8 @@ When the user clicks on the restart button, the board will be reshuffled. When t
 the difficulty buttons, the board will be reshuffled and the size of the board will correspond to the chosen
 level. In order to create this menu, the onCreateOptionsMenu() and onOptionsItemSelected() objects will be used.
 
+![Menu](https://github.com/jelleswester/npuzzle/blob/master/design_doc_img/third_screen_%2Bmenu.png)
+
 In order to check whether the game is won, the order of the tiles should be checked after each swap. Therefore
 each tile will receive a number using view.setTag() in order to check the order. When the user wins the game, a
 new activity will be opened.
@@ -60,4 +62,4 @@ This activity will contain two TextViews and an ImageView. The TextViews will gi
 won the game and the ImageView will contain the solved puzzle by the user. When the user clicks anywhere in this 
 activity, activity 1 will be opened in order for the user to start a new game.
 
-IMAGE3
+![Third Activity](https://github.com/jelleswester/npuzzle/blob/master/design_doc_img/third_screen_puzzle.png)
