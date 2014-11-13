@@ -1,11 +1,11 @@
 Design doc
---------
+========
 
 The n-Puzzle app will consist of three different activities. The activities are explained in more detail 
 below.
 
 Activity 1 ImageSelection:
-========
+--------
 
 This first activity will be shown when the user opens the app. This activity will contain a list of 
 pictures. These pictures will be shown by name and a small icon of that picture. In order to implement this
@@ -15,7 +15,7 @@ one of the items the second activity will be opened.
 IMAGE1
 
 Activity 2 GamePlay:
-========
+--------
 
 This activity will first show the chosen picture and a countdown from 3 until 1. Thereafter the gameboard
 will be loaded in order for the user to start playing the game. The default difficulty level will be medium.
@@ -54,7 +54,7 @@ each tile will receive a number using view.setTag() in order to check the order.
 new activity will be opened.
 
 Activity 3 YouWin:
-========
+--------
 
 This activity will contain two TextViews and an ImageView. The TextViews will give a message that the user has
 won the game and the ImageView will contain the solved puzzle by the user. When the user clicks anywhere in this 
