@@ -62,4 +62,4 @@ This activity will contain two TextViews and an ImageView. The TextViews will gi
 won the game and the ImageView will contain the solved puzzle by the user. When the user clicks anywhere in this 
 activity, activity 1 will be opened in order for the user to start a new game.
 
-![Third Activity](https://github.com/jelleswester/npuzzle/blob/master/design_doc_img/third_screen_puzzle.png)
+![Third Activity](https://github.com/jelleswester/npuzzle/blob/master/design_doc_img/final_screen_congratz.png)
