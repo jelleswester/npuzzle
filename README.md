@@ -12,7 +12,7 @@ pictures. These pictures will be shown by name and a small icon of that picture.
 list, a ListView will be used and an Adapter containing all the items of the list. When the user clicks on
 one of the items the second activity will be opened.
 
-IMAGE1
+![First Activity](https://github.com/jelleswester/npuzzle/blob/master/design_doc_img/start_screen_choose_picture(1).png)
 
 Activity 2 GamePlay:
 --------
