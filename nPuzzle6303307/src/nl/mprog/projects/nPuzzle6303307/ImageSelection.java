@@ -1,34 +1,65 @@
+// Name:			Jelles Wester
+// Studentnumber:	6303307	and 10004531
+// Email:			jelleswester@gmail.com
+
 package nl.mprog.projects.nPuzzle6303307;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
-public class ImageSelection extends ActionBarActivity {
+
+public class ImageSelection extends ActionBarActivity implements AdapterView.OnItemClickListener {
+	public final static String PICTURE = "nl.mprog.setup.Hello6303307.PICT";
+	
+	ListView list;
+	String[] names = {
+			"Green Field",
+			"Lightning City",
+			"Ocean Bay",
+			"Pyramid Desert",
+			"Ice Mountain",
+			"Lightblue Sea",
+			"Moving City"
+			};
+	
+	Integer[] imageId = {
+	      R.drawable.puzzle_0,
+	      R.drawable.puzzle_1,
+	      R.drawable.puzzle_2,
+	      R.drawable.puzzle_3,
+	      R.drawable.puzzle_4,
+	      R.drawable.puzzle_5,
+	      R.drawable.puzzle_6
+	  };	
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    	super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_image_selection);
+        
+        final Intent intentCountDown = new Intent(this, CountDown.class);
+        
+        CustomList adapter = new CustomList(ImageSelection.this, names, imageId);
+        list = (ListView)findViewById(R.id.list);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        	
+        	@Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        		Toast.makeText(ImageSelection.this, "You Clicked at " +names[+ position], Toast.LENGTH_SHORT).show();	
+        		int picture = imageId[position];
+        		intentCountDown.putExtra(PICTURE, picture);
+        		startActivity(intentCountDown);
+        	}
+        	});
+        }
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_image_selection);
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	}	
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.image_selection, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-}

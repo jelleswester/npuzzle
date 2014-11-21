@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="7"
         android:targetSdkVersion="21" />
 
     <application
@@ -21,6 +21,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".GamePlay"
+            android:label="@string/title_activity_game_play" >
+        </activity>
+        <activity
+            android:name=".YouWon"
+            android:label="@string/title_activity_you_won" >
+        </activity>
+        <activity
+            android:name=".CustomList"
+            android:label="@string/title_activity_custom_list" >
+        </activity>
+        <activity
+            android:name=".CountDown"
+            android:label="@string/title_activity_count_down" >
         </activity>
     </application>
 

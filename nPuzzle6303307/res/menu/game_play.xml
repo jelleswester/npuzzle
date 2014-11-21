@@ -3,10 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="nl.mprog.projects.nPuzzle6303307.GamePlay" >
 
+	<item
+        android:id="@+id/restart_button"
+        android:title="@string/restart_button"/>
+	
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        android:id="@+id/easy_button"
+        android:title="@string/easy_button"/>
+    
+    <item
+        android:id="@+id/medium_button"
+        android:title="@string/medium_button"/>
+    
+    <item
+        android:id="@+id/hard_button"
+        android:title="@string/hard_button"/>
+    
+    
+        
 
 </menu>

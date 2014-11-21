@@ -4,5 +4,29 @@
     <string name="app_name">nPuzzle6303307</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_game_play">GamePlay</string>
+    <string name="title_activity_you_won">YouWon</string>
+    <string name="choose_pic">Pick a Puzzle</string>
+    <string name="restart_button">Restart</string>
+    <string name="easy_button">Easy</string>
+    <string name="medium_button">Medium</string>
+    <string name="hard_button">Hard</string>
+    <string name="congratz">Congratulations!</string>
+    <string name="solved">You solved the puzzle!</string>
+
+    <string-array name="images">
+        <item>Picture 1</item>
+        <item>Picture 2</item>
+        <item>Picture 3</item>
+        <item>Picture 4</item>
+        <item>Picture 5</item>
+        <item>Picture 6</item>
+        <item>Picture 7</item>
+        <item>Picture 8</item>
+        <item>Picture 9</item>
+    </string-array>
+
+    <string name="title_activity_custom_list">CustomList</string>
+    <string name="title_activity_count_down">CountDown</string>
 
 </resources>
