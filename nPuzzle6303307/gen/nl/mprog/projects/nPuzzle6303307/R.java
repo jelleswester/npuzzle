@@ -1090,6 +1090,10 @@ containing a value of this type.
         public static final int puzzle_4=0x7f02005e;
         public static final int puzzle_5=0x7f02005f;
         public static final int puzzle_6=0x7f020060;
+        public static final int puzzle_7=0x7f020061;
+        public static final int puzzle_8=0x7f020062;
+        public static final int puzzle_9=0x7f020063;
+        public static final int tile_white=0x7f020064;
     }
     public static final class id {
         public static final int action_bar=0x7f05001c;
@@ -1119,6 +1123,7 @@ containing a value of this type.
         public static final int end=0x7f050013;
         public static final int expand_activities_button=0x7f050026;
         public static final int expanded_menu=0x7f05002c;
+        public static final int gridview=0x7f05003e;
         public static final int hard_button=0x7f050048;
         public static final int home=0x7f050014;
         public static final int homeAsUp=0x7f050005;
@@ -1127,7 +1132,6 @@ containing a value of this type.
         public static final int image=0x7f050027;
         public static final int imageView1=0x7f050041;
         public static final int imageview1=0x7f05003d;
-        public static final int imageview2=0x7f05003e;
         public static final int img=0x7f050042;
         public static final int list=0x7f050040;
         public static final int listMode=0x7f050001;

@@ -3,9 +3,6 @@ package nl.mprog.projects.nPuzzle6303307;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -20,15 +17,13 @@ public class CountDown extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_count_down);
 		
-		// get the chosen image
+		// get the chosen image from last ImageSelection activity
 		Intent intent = getIntent();
 		final int picture = intent.getIntExtra(ImageSelection.PICTURE,0);
-		Bitmap image = BitmapFactory.decodeResource(getResources(),picture);
-		image = Bitmap.createScaledBitmap(image, 500, 350, true);
-		
+				
 		// show the chosen image
 		ImageView imageView = (ImageView)findViewById(R.id.imageview1);
-		imageView.setImageBitmap(image);
+		imageView.setImageResource(picture);
 		
 		final Intent intentGamePlay = new Intent(this, GamePlay.class);
 		final Handler handler = new Handler();
@@ -44,7 +39,7 @@ public class CountDown extends ActionBarActivity {
 		        else {
 		        	textView.setVisibility(textView.GONE);
         
-		// start the game
+		// start GamePlay activity
         intentGamePlay.putExtra(PICTURE, picture);
         startActivity(intentGamePlay);
         finish();

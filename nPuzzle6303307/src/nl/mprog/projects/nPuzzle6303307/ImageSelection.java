@@ -16,17 +16,22 @@ import android.widget.Toast;
 public class ImageSelection extends ActionBarActivity implements AdapterView.OnItemClickListener {
 	public final static String PICTURE = "nl.mprog.setup.Hello6303307.PICT";
 	
+	// list of picture names
 	ListView list;
 	String[] names = {
-			"Green Field",
-			"Lightning City",
-			"Ocean Bay",
-			"Pyramid Desert",
-			"Ice Mountain",
-			"Lightblue Sea",
-			"Moving City"
+			"Bayern",
+			"Barcelona",
+			"Chelsea",
+			"Arsenal",
+			"Man City",
+			"Man United",
+			"Real Madrid",
+			"PSG",
+			"Liverpool",
+			"Dortmund"
 			};
 	
+	// list of pictures
 	Integer[] imageId = {
 	      R.drawable.puzzle_0,
 	      R.drawable.puzzle_1,
@@ -34,7 +39,10 @@ public class ImageSelection extends ActionBarActivity implements AdapterView.OnI
 	      R.drawable.puzzle_3,
 	      R.drawable.puzzle_4,
 	      R.drawable.puzzle_5,
-	      R.drawable.puzzle_6
+	      R.drawable.puzzle_6,
+	      R.drawable.puzzle_7,
+	      R.drawable.puzzle_8,
+	      R.drawable.puzzle_9
 	  };	
 
     @Override
