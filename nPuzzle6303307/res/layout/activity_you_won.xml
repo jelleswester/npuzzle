@@ -1,24 +1,40 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background1"
     tools:context="nl.mprog.projects.nPuzzle6303307.YouWon" >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/congratz" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/puzzle_0" />
+        android:text="@string/congratz"
+        android:textSize="30sp"
+        android:textColor="@color/white"/>
     
     <TextView 
+        android:id="@+id/numStepsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/solved"/>
+        android:text="@string/solved"
+        android:textSize="18sp"
+        android:paddingBottom="3dp"
+        android:textColor="@color/white"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageViewEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:onClick="imageSelection"
+        android:text="@string/new_game" />
+
+</RelativeLayout>

@@ -1,3 +1,7 @@
+// Name:			Jelles Wester
+// Studentnumber:	6303307	and 10004531
+// Email:			jelleswester@gmail.com
+
 package nl.mprog.projects.nPuzzle6303307;
 import android.app.Activity;
 import android.view.LayoutInflater;

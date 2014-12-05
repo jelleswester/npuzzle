@@ -18,6 +18,9 @@
     <item
         android:id="@+id/hard_button"
         android:title="@string/hard_button"/>
+    <item
+        android:id="@+id/new_game_button"
+        android:title="@string/new_game_button"/>
     
     
         
