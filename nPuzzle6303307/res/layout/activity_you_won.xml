@@ -2,31 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background1"
+    android:orientation="vertical"
     tools:context="nl.mprog.projects.nPuzzle6303307.YouWon" >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/congratz"
-        android:textSize="30sp"
-        android:textColor="@color/white"/>
-    
-    <TextView 
-        android:id="@+id/numStepsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/solved"
-        android:textSize="18sp"
-        android:paddingBottom="3dp"
-        android:textColor="@color/white"/>
 
     <ImageView
         android:id="@+id/imageViewEnd"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
@@ -36,5 +22,26 @@
         android:layout_alignParentRight="true"
         android:onClick="imageSelection"
         android:text="@string/new_game" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/congratz"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/numStepsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="3dp"
+        android:text="@string/solved"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 </RelativeLayout>

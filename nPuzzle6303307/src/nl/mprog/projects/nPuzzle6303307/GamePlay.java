@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -24,14 +23,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class GamePlay extends ActionBarActivity {
-	public final static String PICTURE = "nl.mprog.setup.Hello6303307.PICT";
-	public final static String LEVEL = "nl.mprog.setup.Hello6303307.LEV";
 	public final static String STEPS = "nl.mprog.setup.Hello6303307.STEPS";
-	private boolean puzzleSolved;
 	public class completeTile{
+		
 		// one tile contains a bitmap and a number
 		int number;
 		Bitmap bitmap;
@@ -45,10 +41,8 @@ public class GamePlay extends ActionBarActivity {
 	// create an arraylist of complete tiles
 	ArrayList<completeTile> tiles = new ArrayList<completeTile>();
 	
-	// declare current level
+	// declare current level and blank location
 	int cur_level;
-	
-	// declare blank location (in order to track)
 	int blank_location;
 	
 	// declare image_id and bitmap picture
@@ -68,17 +62,21 @@ public class GamePlay extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_play);
 	
-		// retrieve check from savings
+		// open shared preferences and editor
 		Context mContext = getApplicationContext();
 	    SharedPreferences mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
 	    SharedPreferences.Editor sEdit = mPrefs.edit();
-		int check = mPrefs.getInt("check", 0);
+		
+	    // retrieve check from shared preferences
+	    int check = mPrefs.getInt("check", 0);
+	    
+	    // retrieve image_id from shared preferences
+	    image_id = mPrefs.getInt("image_id", 0);
 		
 		// check whether there is a saved game
 		if (check == 1) {
 			
 			// retrieve image id, current level & blank location from savings
-			image_id = mPrefs.getInt("image_id", 0);
 			cur_level = mPrefs.getInt("cur_level", 0);
 			blank_location = mPrefs.getInt("blank_location", 15);
 		}
@@ -86,12 +84,11 @@ public class GamePlay extends ActionBarActivity {
 		// if not -> new game
 		else {
 			
-			// if menu option selected
+			// check if the new game is opened from the menu
 			int menu_check = mPrefs.getInt("menu_check", 0);
 			if (menu_check == 1){
 				
-				// retrieve image id, current level and blank location from savings
-				image_id = mPrefs.getInt("menu_image_id", 0);
+				// retrieve image id, current level and blank location from shared preferences
 				cur_level = mPrefs.getInt("menu_level", 0);
 				blank_location = (cur_level * cur_level) - 1;
 				
@@ -102,115 +99,28 @@ public class GamePlay extends ActionBarActivity {
 						 
 			}
 			
-			// else set current level to default
+			// else set to default settings
 			else {
-				// retrieve image_id from CountDown activity
-				Intent intent = getIntent();
-				image_id = intent.getIntExtra(ImageSelection.PICTURE,0);
 				
-				// set current level to default
+				// set current level and blank_location to default
 				cur_level = 4;
-				
-				// set blank location
 				blank_location = (cur_level * cur_level) - 1;
 			}
 		}
-		// using image id, store corresponding image in bitmap picture
-		if (image_id == 0){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_0);
-		}
-		else if (image_id == 1){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_1);
-		}
-		else if (image_id == 2){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_2);
-		}
-		else if (image_id == 3){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_3);
-		}
-		else if (image_id == 4){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_4);
-		}
-		else if (image_id == 5){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_5);
-		}
-		else if (image_id == 6){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_6);
-		}
-		else if (image_id == 7){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_7);
-		}
-		else if (image_id == 8){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_8);
-		}
-		else if (image_id == 9){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_9);
-		}
 		
-		// declare board_size
-		final int board_size = cur_level;
+		// get image using image_id
+		getImage(image_id);
 		
-		// obtain width and height of Bitmap
-		int image_height = picture.getHeight();
-		int image_width = picture.getWidth();
+		// create initial gameboard
+		createBoard(picture, cur_level);
 		
-		// declare width and height of one tile
-		int tile_width = image_width / board_size;
-		int tile_height = image_height / board_size;
-		
-		// declare start location to crop Bitmap
-		int x = image_width - tile_width;
-		int y = image_height - tile_height;
-		
-		// declare counter to count the tiles
-		int tile_counter = 0;
-		
-		// crop Bitmap and store tiles in tiles ArrayList
-		for (int i = 0, n = board_size; i < n; i++) {
-			for (int j = 0, m = board_size; j < m; j++){
-				
-				// check whether not blank tile
-				if ((j != 0) | (i != 0)){
-					completeTile t = new completeTile();
-					t.number = tile_counter;
-					Bitmap tile = Bitmap.createBitmap(picture, x, y, tile_width, tile_height);
-					t.bitmap = tile;
-					tiles.add(t);
-				}
-				
-				// update x and counter
-				x -= tile_width;
-				tile_counter += 1;
-			}
-			
-			// update x and y
-			x = image_width - tile_width;
-			y -= tile_height;
-		}
-		
-		// create and add blank tile to the ArrayList
-		completeTile t = new completeTile();
-		t.number = 0;
-		Bitmap blank = BitmapFactory.decodeResource(getResources(),R.drawable.tile_png);
-		blank = Bitmap.createScaledBitmap(blank, tile_width, tile_height, true);
-		t.bitmap = blank;
-		tiles.add(t);
-		
-		// when the board has an odd number of tiles, swap the last two tiles
-		if (board_size % 2 == 0){
-			completeTile temp = tiles.get((board_size * board_size) - 2);
-			completeTile temp1 = tiles.get((board_size * board_size) - 3);
-			tiles.set((board_size * board_size) - 2, temp1);
-			tiles.set((board_size * board_size) - 3, temp);
-		}
-		
-		// connect to gridview by id
+		// connect gridview to xml file
 		gridView = (GridView) findViewById(R.id.gridview);
 		
 		// use adapter in order to add list of images to gridview
 		mAdapter1 = new ImageAdapter(this);
 		gridView.setAdapter(mAdapter1);
-		gridView.setNumColumns(board_size);
+		gridView.setNumColumns(cur_level);
 		gridView.invalidateViews();
 		
 		// use displaymetrics to obtain screen width and height
@@ -219,113 +129,28 @@ public class GamePlay extends ActionBarActivity {
 		display_height = displaymetrics.heightPixels;
 		display_width = displaymetrics.widthPixels;
 		
-		// create intent YouWon
+		// create intent youwon
 		final Intent intentYouWon = new Intent(this, YouWon.class);
 		
 		// when clicking on one image in the gridview
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id){
 				
-				// checks whether blank tile is to the left
-				if ((position - 1 == blank_location) & ((position)%board_size != 0)){
-					
-					// if so, swap tiles in arraylist
-					completeTile temp = tiles.get(position);
-					completeTile temp1 = tiles.get(position - 1);
-					tiles.set(position, temp1);
-					tiles.set(position - 1, temp);
-					
-					// update blank_location
-					blank_location = position;
-					
-					// add one to total steps
-					num_steps += 1;
-					
-					// let adapter know arraylist has changed
-					mAdapter1.notifyDataSetChanged();
-				}
-				
-				// checks whether blank tile is to the right
-				else if ((position + 1 == blank_location) & ((position + 1)%board_size != 0)){
-					
-					// if so, swap tiles in arraylist
-					completeTile temp = tiles.get(position);
-					completeTile temp1 = tiles.get(position + 1);
-					tiles.set(position, temp1);
-					tiles.set(position + 1, temp);
-					
-					// update blank_location
-					blank_location = position;
-					
-					// add one to total steps
-					num_steps += 1;
-					
-					// let adapter know arraylist has changed
-					mAdapter1.notifyDataSetChanged();
-				}
-				
-				// checks whether blank tile is above
-				else if (position - board_size == blank_location){
-					
-					// if so, swap tiles in arraylist
-					completeTile temp = tiles.get(position);
-					completeTile temp1 = tiles.get(position - board_size);
-					tiles.set(position, temp1);
-					tiles.set(position - board_size, temp);
-					
-					// update blank_location
-					blank_location = position;
-					
-					// add one to total steps
-					num_steps += 1;
-					
-					// let adapter know arraylist has changed
-					mAdapter1.notifyDataSetChanged();
-				}
-				
-				// checks whether blank tile is below
-				else if (position + board_size == blank_location){
-					
-					// if so, swap tiles in arraylist
-					completeTile temp = tiles.get(position);
-					completeTile temp1 = tiles.get(position + board_size);
-					tiles.set(position, temp1);
-					tiles.set(position + board_size, temp);
-					
-					// update blank_location
-					blank_location = position;
-					
-					// add one to total steps
-					num_steps += 1;
-					
-					// let adapter know arraylist has changed
-					mAdapter1.notifyDataSetChanged();
-				}
+				// move tile if possible
+				moveTile(position);
 				
 				// check whether puzzle is solved
 				if (puzzleSolved() == true){
 					
-					// add number of steps to intent YouWon
+					// add number of steps to intent youwon
 					intentYouWon.putExtra(STEPS, num_steps);
 
-					// start YouWon activity
+					// start youwon activity
 					startActivity(intentYouWon);
 					finish();
 				}
 			}
 			});
-		}
-		
-		@Override
-		public void onConfigurationChanged(Configuration newConfig) {
-		    super.onConfigurationChanged(newConfig);
-		
-		    // Checks the orientation of the screen
-		    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-		        Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-		    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-		        Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-		    }
 		}
 		
 		// create an image adapter
@@ -353,16 +178,7 @@ public class GamePlay extends ActionBarActivity {
 					
 					// use display width and current level to adapt image size to display screen
 					int width = display_width / cur_level;
-					int height = display_height / cur_level;
-					
-					// use configuration to determine screen orientation
-					Configuration config = getResources().getConfiguration();
-					if (config.orientation == Configuration.ORIENTATION_PORTRAIT){
-						imageView.setLayoutParams(new GridView.LayoutParams(width, width));
-					}
-					else {
-						imageView.setLayoutParams(new GridView.LayoutParams(height - 30, height - 30));
-					}
+					imageView.setLayoutParams(new GridView.LayoutParams(width, width));
 					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					imageView.setPadding(1, 1, 1, 1);
 					} 
@@ -380,9 +196,9 @@ public class GamePlay extends ActionBarActivity {
 				}
 	}
 	
+	// returns true if puzzle is solved, else false	
 	private Boolean puzzleSolved()
     {
-	// returns true if puzzle is solved, else false	
 		
 		// declare current number
 		int current;
@@ -410,20 +226,196 @@ public class GamePlay extends ActionBarActivity {
 		return true;
     }
 	
+	private void createBoard(Bitmap image, int current_level){
+		
+		// declare board_size
+		final int board_size = current_level;
+		
+		// obtain width and height of Bitmap
+		int image_height = image.getHeight();
+		int image_width = image.getWidth();
+		
+		// declare width and height of one tile
+		int tile_width = image_width / board_size;
+		int tile_height = image_height / board_size;
+		
+		// declare start location to crop Bitmap
+		int x = image_width - tile_width;
+		int y = image_height - tile_height;
+		
+		// declare counter to count the tiles
+		int tile_counter = 0;
+		
+		// crop Bitmap and store tiles in tiles arraylist
+		for (int i = 0, n = board_size; i < n; i++) {
+			for (int j = 0, m = board_size; j < m; j++){
+				
+				// check whether not blank tile
+				if ((j != 0) | (i != 0)){
+					completeTile t = new completeTile();
+					t.number = tile_counter;
+					Bitmap tile = Bitmap.createBitmap(picture, x, y, tile_width, tile_height);
+					t.bitmap = tile;
+					tiles.add(t);
+				}
+				
+				// update x and counter
+				x -= tile_width;
+				tile_counter += 1;
+			}
+			
+			// update x and y
+			x = image_width - tile_width;
+			y -= tile_height;
+		}
+		
+		// create and add blank tile to the arraylist
+		completeTile t = new completeTile();
+		t.number = 0;
+		Bitmap blank = BitmapFactory.decodeResource(getResources(),R.drawable.tile_png);
+		blank = Bitmap.createScaledBitmap(blank, tile_width, tile_height, true);
+		t.bitmap = blank;
+		tiles.add(t);
+		
+		// when the board has an odd number of tiles, swap the last two tiles
+		if (board_size % 2 == 0){
+			completeTile temp = tiles.get((board_size * board_size) - 2);
+			completeTile temp1 = tiles.get((board_size * board_size) - 3);
+			tiles.set((board_size * board_size) - 2, temp1);
+			tiles.set((board_size * board_size) - 3, temp);
+		}
+	}
+	
+	private void getImage(int image_id){
+		
+		// get image_id
+		int image = image_id;
+		
+		// using image id, store corresponding image in bitmap picture
+		if (image == 0){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_0);
+		}
+		else if (image == 1){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_1);
+		}
+		else if (image == 2){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_2);
+		}
+		else if (image == 3){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_3);
+		}
+		else if (image == 4){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_4);
+		}
+		else if (image == 5){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_5);
+		}
+		else if (image == 6){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_6);
+		}
+		else if (image == 7){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_7);
+		}
+		else if (image == 8){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_8);
+		}
+		else if (image == 9){
+			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.puzzle_9);
+		}
+	}
+	
+	private void moveTile(int position){
+		
+		// check whether blank tile is to the left
+		if ((position - 1 == blank_location) & ((position)%cur_level != 0)){
+			
+			// if so, swap tiles in arraylist
+			completeTile temp = tiles.get(position);
+			completeTile temp1 = tiles.get(position - 1);
+			tiles.set(position, temp1);
+			tiles.set(position - 1, temp);
+			
+			// update blank_location
+			blank_location = position;
+			
+			// add one to total steps
+			num_steps += 1;
+			
+			// let adapter know arraylist has changed
+			mAdapter1.notifyDataSetChanged();
+		}
+		
+		// check whether blank tile is to the right
+		else if ((position + 1 == blank_location) & ((position + 1)%cur_level != 0)){
+			
+			// if so, swap tiles in arraylist
+			completeTile temp = tiles.get(position);
+			completeTile temp1 = tiles.get(position + 1);
+			tiles.set(position, temp1);
+			tiles.set(position + 1, temp);
+			
+			// update blank_location
+			blank_location = position;
+			
+			// add one to total steps
+			num_steps += 1;
+			
+			// let adapter know arraylist has changed
+			mAdapter1.notifyDataSetChanged();
+		}
+		
+		// check whether blank tile is above
+		else if (position - cur_level == blank_location){
+			
+			// if so, swap tiles in arraylist
+			completeTile temp = tiles.get(position);
+			completeTile temp1 = tiles.get(position - cur_level);
+			tiles.set(position, temp1);
+			tiles.set(position - cur_level, temp);
+			
+			// update blank_location
+			blank_location = position;
+			
+			// add one to total steps
+			num_steps += 1;
+			
+			// let adapter know arraylist has changed
+			mAdapter1.notifyDataSetChanged();
+		}
+		
+		// check whether blank tile is below
+		else if (position + cur_level == blank_location){
+			
+			// if so, swap tiles in arraylist
+			completeTile temp = tiles.get(position);
+			completeTile temp1 = tiles.get(position + cur_level);
+			tiles.set(position, temp1);
+			tiles.set(position + cur_level, temp);
+			
+			// update blank_location
+			blank_location = position;
+			
+			// add one to total steps
+			num_steps += 1;
+			
+			// let adapter know arraylist has changed
+			mAdapter1.notifyDataSetChanged();
+		}
+	}
+	
 	public void onPause() {
     	super.onPause();
     	
-    	// create sharedpreferences and editor in order to save
+    	// open shared preferences and editor
     	Context mContext = getApplicationContext();
         SharedPreferences mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
     	SharedPreferences.Editor sEdit = mPrefs.edit();
     	
-    	// add check, image id, current level and blank location to savings
+    	// add check, image id, current level and blank location to shared preferences
     	int check = 1;
     	sEdit.putInt("check", check);
     	sEdit.putInt("cur_level", cur_level);
     	sEdit.putInt("blank_location", blank_location);
-    	sEdit.putInt("image_id", image_id);
   
     	// iterate through the arraylist of tiles
     	for(int i = 0; i < tiles.size(); i++)
@@ -448,11 +440,11 @@ public class GamePlay extends ActionBarActivity {
 	public void onResume() {
 		super.onResume(); 
 		
-		// open savings
+		// open shared preferences
 		Context mContext = getApplicationContext();
 	    SharedPreferences mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
         
-	    // retrieve check from savings
+	    // retrieve check from shared preferences
         int check = mPrefs.getInt("check", 0);
         
         // check whether there is a game saved
@@ -502,7 +494,7 @@ public class GamePlay extends ActionBarActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+		// inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game_play, menu);
 		return true;
 	}
@@ -510,20 +502,21 @@ public class GamePlay extends ActionBarActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 				
-		// open sharedpreferences and editor to change savings
+		// open shared preferences and editor
 		Context mContext = getApplicationContext();
         SharedPreferences mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
     	SharedPreferences.Editor sEdit = mPrefs.edit();
     	
-    	// update check and image_id to savings
+    	// update check in shared preferences
     	sEdit.putInt("check", 0);
-    	sEdit.putInt("menu_image_id", image_id);
 		
 		// declare new_game_check
-		int new_game_check = 0;
+		boolean new_game_check = false;
 		
 		// check menu item selected
 		int id = item.getItemId();
+		
+		// restart button
 		if (id == R.id.restart_button) {
 			
 			// update current level, blank location and menu check in savings
@@ -531,6 +524,8 @@ public class GamePlay extends ActionBarActivity {
 			sEdit.putInt("menu_blank_location", blank_location);
 			sEdit.putInt("menu_check", 1);
 		}
+		
+		// easy button
 		else if (id == R.id.easy_button) {
 			
 			// update current level, blank location and menu check in savings
@@ -538,6 +533,8 @@ public class GamePlay extends ActionBarActivity {
 			sEdit.putInt("menu_blank_location", 8);
 			sEdit.putInt("menu_check", 1);	
 		}
+		
+		// medium button
 		else if (id == R.id.medium_button) {
 			
 			// update current level, blank location and menu check in savings
@@ -545,6 +542,8 @@ public class GamePlay extends ActionBarActivity {
 			sEdit.putInt("menu_blank_location", 15);
 			sEdit.putInt("menu_check", 1);
 		}
+		
+		// hard button
 		else if (id == R.id.hard_button) {
 			
 			// update current level, blank location and menu check in savings
@@ -552,25 +551,30 @@ public class GamePlay extends ActionBarActivity {
 			sEdit.putInt("menu_blank_location", 24);
 			sEdit.putInt("menu_check", 1);
 		}
+		
+		// new game button
 		else if (id == R.id.new_game_button){
 		
 	    	// update new_game_check
-			new_game_check = 1;
+			new_game_check = true;
 	    }
 		
 		// commit savings
 		sEdit.commit();
 		
-		if (new_game_check == 1) {
+		// if new game is selected
+		if (new_game_check == true) {
 			
-			// create intent ImageSelection and start activity
-	    	Intent intentImageSelection = new Intent(this, ImageSelection.class);
+			// create intent quitgame and start activity
+	    	Intent intentImageSelection = new Intent(this, QuitGame.class);
 	    	startActivity(intentImageSelection);
 	    	finish();
 		}
+		
+		// else start gameplay again
 		else {
 			
-			// create new intent GamePlay and start activity
+			// create new intent gameplay and start activity
 			Intent intentGamePlay = new Intent(this, GamePlay.class);
 			startActivity(intentGamePlay);
 			finish();

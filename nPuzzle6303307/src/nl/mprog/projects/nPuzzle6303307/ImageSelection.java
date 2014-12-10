@@ -7,6 +7,7 @@ package nl.mprog.projects.nPuzzle6303307;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -14,8 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-public class ImageSelection extends ActionBarActivity implements AdapterView.OnItemClickListener {
-	public final static String PICTURE = "nl.mprog.setup.Hello6303307.PICT";
+public class ImageSelection extends ActionBarActivity {
 	
 	// create list of football club names
 	ListView list;
@@ -51,14 +51,18 @@ public class ImageSelection extends ActionBarActivity implements AdapterView.OnI
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_selection);
         
-     	// create intent countDown and intent ResumeGame
+     	// create intent countdown and intent resumegame
         final Intent intentCountDown = new Intent(this, CountDown.class);
         final Intent intentResumeGame = new Intent(this, ResumeGame.class);
         
-        // retrieve check from savings
+        // retrieve check from shared preferences
         Context mContext = getApplicationContext();
 	    SharedPreferences mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
-		int check = mPrefs.getInt("check", 0);
+	    int check = mPrefs.getInt("check", 0);
+	    
+	    // set and play intro music
+	    MediaPlayer mediaplayer = MediaPlayer.create(mContext, R.raw.intro);
+        mediaplayer.start();
 		
 		// if already open game -> start ResumeGamea activity
 		if (check == 1){
@@ -72,23 +76,21 @@ public class ImageSelection extends ActionBarActivity implements AdapterView.OnI
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	
-        	@Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        	// when clicking on one item in the list:
-        		
-        		// add the image id to intentCountDown
-        		int image_id = position;
-        		intentCountDown.putExtra(PICTURE, image_id);
-        		
-        		// start Countdown activity
-        		startActivity(intentCountDown);
-        		finish();
-        	}
-        	});
+    	@Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    		
+    		// add the image id to shared preferences
+    		int image_id = position;
+    		Context mContext = getApplicationContext();
+    	    SharedPreferences mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
+    	    SharedPreferences.Editor sEdit = mPrefs.edit();
+    		sEdit.putInt("image_id", image_id);
+        	sEdit.commit();
+    		
+    		// start countdown activity
+    		startActivity(intentCountDown);
+    		finish();
+    	}
+    	});
         }
-    
-
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-	}	
-	}
+}

@@ -21,25 +21,27 @@ public class ResumeGame extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_resume_game);
 		
-		// connect to imageview by its id
+		// create imageview and connect to xml file
 		ImageView imageView = (ImageView)findViewById(R.id.imageview_resume);
 		
 		// retrieve picture from drawables and set to imageview
 		Bitmap picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.continue_playing);
 		imageView.setImageBitmap(picture);
 	}
+	
+	// activates when clicking on yes button
 	public void gamePlay(View view) {
-    // activates when clicking on yes button
-		
-		// create intent GamePlay and start activity
+    
+		// create intent gameplay and start activity
     	Intent intentGamePlay = new Intent(this, GamePlay.class);
     	startActivity(intentGamePlay);
     	finish();
     }
 	
+	
+	// activates when clicking on no button
 	public void imageSelection(View view) {
-    // activates when clicking on no button
-		
+    
 		// reset check to zero (i.e. no open game left)
     	Context mContext = getApplicationContext();
         SharedPreferences mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
@@ -47,7 +49,7 @@ public class ResumeGame extends ActionBarActivity {
     	sEdit.putInt("check", 0);
     	sEdit.commit();
     	
-    	// create intent ImageSelection and start activity
+    	// create intent imageselection and start activity
     	Intent intentImageSelection = new Intent(this, ImageSelection.class);
     	startActivity(intentImageSelection);
     	finish();

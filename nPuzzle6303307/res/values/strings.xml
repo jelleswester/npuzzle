@@ -14,10 +14,11 @@
     <string name="new_game_button">New Game</string>
     <string name="congratz">Congratulations!</string>
     <string name="solved">You solved the puzzle!</string>
-    <string name ="resume_game">Do you want to resume previous game?</string>
+    <string name="resume_game">Do you want to resume previous game?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="new_game">New Game!</string>
+    <string name="quit_game">Are you sure you want to start a new game?</string>
 
     <string-array name="images">
         <item>Picture 1</item>
@@ -34,5 +35,6 @@
     <string name="title_activity_custom_list">CustomList</string>
     <string name="title_activity_count_down">CountDown</string>
     <string name="title_activity_resume_game">ResumeGame</string>
+    <string name="title_activity_quit_game">QuitGame</string>
 
 </resources>
