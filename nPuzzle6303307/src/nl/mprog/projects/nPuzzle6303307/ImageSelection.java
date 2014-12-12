@@ -45,6 +45,9 @@ public class ImageSelection extends ActionBarActivity {
 	      R.drawable.icon_8,
 	      R.drawable.icon_9
 	  };
+	
+	// create mediaplayer
+	MediaPlayer mediaplayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +64,13 @@ public class ImageSelection extends ActionBarActivity {
 	    int check = mPrefs.getInt("check", 0);
 	    
 	    // set and play intro music
-	    MediaPlayer mediaplayer = MediaPlayer.create(mContext, R.raw.intro);
+	    mediaplayer = MediaPlayer.create(mContext, R.raw.intro);
         mediaplayer.start();
 		
 		// if already open game -> start ResumeGamea activity
 		if (check == 1){
 			startActivity(intentResumeGame);
+			mediaplayer.stop();
 			finish();
 		}
 		
@@ -89,8 +93,34 @@ public class ImageSelection extends ActionBarActivity {
     		
     		// start countdown activity
     		startActivity(intentCountDown);
+    		mediaplayer.stop();
     		finish();
     	}
     	});
         }
+    
+    @Override
+    public void onBackPressed() {
+        
+    	// when back button pressed, stop music
+    	mediaplayer.stop();
+ 
+        super.onBackPressed();
+    }
+    
+    public void onPause() {
+    	super.onPause();
+    	
+    	// when activity is not in front screen, stop music
+    	mediaplayer.stop();
+    }
+    
+    public void onResume() {
+    	super.onResume();
+    	
+    	// when activity comes back in front screen, start music
+    	Context mContext = getApplicationContext();
+    	mediaplayer = MediaPlayer.create(mContext, R.raw.intro);
+    	mediaplayer.start();
+    }
 }

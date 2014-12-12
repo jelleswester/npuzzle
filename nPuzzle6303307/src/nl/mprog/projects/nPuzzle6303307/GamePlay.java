@@ -50,7 +50,7 @@ public class GamePlay extends ActionBarActivity {
 	Bitmap picture = null;
 	
 	// declare number of steps (in order to track)
-	int num_steps = 0;
+	int num_steps;
 	
 	// declare display width and height
 	DisplayMetrics displaymetrics;
@@ -78,7 +78,8 @@ public class GamePlay extends ActionBarActivity {
 			
 			// retrieve image id, current level & blank location from savings
 			cur_level = mPrefs.getInt("cur_level", 0);
-			blank_location = mPrefs.getInt("blank_location", 15);
+			blank_location = mPrefs.getInt("blank_location", 0);
+			
 		}
 		
 		// if not -> new game
@@ -416,6 +417,7 @@ public class GamePlay extends ActionBarActivity {
     	sEdit.putInt("check", check);
     	sEdit.putInt("cur_level", cur_level);
     	sEdit.putInt("blank_location", blank_location);
+    	sEdit.putInt("num_steps", num_steps);
   
     	// iterate through the arraylist of tiles
     	for(int i = 0; i < tiles.size(); i++)
@@ -453,6 +455,7 @@ public class GamePlay extends ActionBarActivity {
         	// retrieve the current level & blank location
         	cur_level = mPrefs.getInt("cur_level", 0);
         	blank_location = mPrefs.getInt("blank_location", 0);
+        	num_steps = mPrefs.getInt("num_steps", 0);
             
             // create arraylist containing numbers in right order
             ArrayList<Integer> orderlist = new ArrayList<Integer>();
