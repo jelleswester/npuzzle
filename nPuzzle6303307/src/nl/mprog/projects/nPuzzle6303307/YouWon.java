@@ -19,6 +19,10 @@ import android.widget.TextView;
 
 public class YouWon extends ActionBarActivity {
 	
+	// declare bitmap picture and image
+	Bitmap picture;
+	Bitmap image;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,10 +39,10 @@ public class YouWon extends ActionBarActivity {
 		// create imageview and set scaled image
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-		Bitmap picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.referee);
+		picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.referee);
 		int height = (int)(picture.getHeight() * 0.5);
 		int width = (int)(picture.getWidth() * 0.5);
-		Bitmap image = Bitmap.createScaledBitmap(picture, width, height, true);
+		image = Bitmap.createScaledBitmap(picture, width, height, true);
 		ImageView i = (ImageView) findViewById(R.id.imageViewEnd);
 		i.setImageBitmap(image);
 		
@@ -60,6 +64,8 @@ public class YouWon extends ActionBarActivity {
 	    	// create intent imageselection and start activity
 	    	Intent intentImageSelection = new Intent(this, ImageSelection.class);
 	    	startActivity(intentImageSelection);
+	    	picture.recycle();
+	    	image.recycle();
 	    	finish();
 	    }
 }

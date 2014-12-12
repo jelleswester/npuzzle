@@ -16,6 +16,9 @@ import android.widget.ImageView;
 
 public class ResumeGame extends ActionBarActivity {	
 	
+	// declare bitmap picture
+	Bitmap picture;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,7 +28,7 @@ public class ResumeGame extends ActionBarActivity {
 		ImageView imageView = (ImageView)findViewById(R.id.imageview_resume);
 		
 		// retrieve picture from drawables and set to imageview
-		Bitmap picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.continue_playing);
+		picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.continue_playing);
 		imageView.setImageBitmap(picture);
 	}
 	
@@ -35,6 +38,7 @@ public class ResumeGame extends ActionBarActivity {
 		// create intent gameplay and start activity
     	Intent intentGamePlay = new Intent(this, GamePlay.class);
     	startActivity(intentGamePlay);
+    	picture.recycle();
     	finish();
     }
 	
@@ -52,6 +56,7 @@ public class ResumeGame extends ActionBarActivity {
     	// create intent imageselection and start activity
     	Intent intentImageSelection = new Intent(this, ImageSelection.class);
     	startActivity(intentImageSelection);
+    	picture.recycle();
     	finish();
     }
 }

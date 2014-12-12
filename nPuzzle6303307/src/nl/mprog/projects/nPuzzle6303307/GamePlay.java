@@ -26,7 +26,7 @@ import android.widget.ImageView;
 
 public class GamePlay extends ActionBarActivity {
 	public final static String STEPS = "nl.mprog.setup.Hello6303307.STEPS";
-	public class completeTile{
+	public class CompleteTile{
 		
 		// one tile contains a bitmap and a number
 		int number;
@@ -39,7 +39,7 @@ public class GamePlay extends ActionBarActivity {
 	ImageAdapter mAdapter1;
 	
 	// create an arraylist of complete tiles
-	ArrayList<completeTile> tiles = new ArrayList<completeTile>();
+	ArrayList<CompleteTile> tiles = new ArrayList<CompleteTile>();
 	
 	// declare current level and blank location
 	int cur_level;
@@ -148,6 +148,7 @@ public class GamePlay extends ActionBarActivity {
 
 					// start youwon activity
 					startActivity(intentYouWon);
+					recycleBitmaps();
 					finish();
 				}
 			}
@@ -188,7 +189,7 @@ public class GamePlay extends ActionBarActivity {
 					} 
 				
 				// retrieve bitmap from complete tile
-				completeTile m = tiles.get(position);
+				CompleteTile m = tiles.get(position);
 				Bitmap bm = m.bitmap;
 				
 				// set bitmap to imageview
@@ -211,7 +212,7 @@ public class GamePlay extends ActionBarActivity {
 		for (int i = 0, n = tiles.size(); i < n; i++){
 			
 			// get the number of complete tile i
-			completeTile temp_tile = tiles.get(i);
+			CompleteTile temp_tile = tiles.get(i);
 			current = temp_tile.number;
 			
 			// if current number is larger than previous -> return false
@@ -253,7 +254,7 @@ public class GamePlay extends ActionBarActivity {
 				
 				// check whether not blank tile
 				if ((j != 0) | (i != 0)){
-					completeTile t = new completeTile();
+					CompleteTile t = new CompleteTile();
 					t.number = tile_counter;
 					Bitmap tile = Bitmap.createBitmap(picture, x, y, tile_width, tile_height);
 					t.bitmap = tile;
@@ -271,7 +272,7 @@ public class GamePlay extends ActionBarActivity {
 		}
 		
 		// create and add blank tile to the arraylist
-		completeTile t = new completeTile();
+		CompleteTile t = new CompleteTile();
 		t.number = 0;
 		Bitmap blank = BitmapFactory.decodeResource(getResources(),R.drawable.tile_png);
 		blank = Bitmap.createScaledBitmap(blank, tile_width, tile_height, true);
@@ -280,8 +281,8 @@ public class GamePlay extends ActionBarActivity {
 		
 		// when the board has an odd number of tiles, swap the last two tiles
 		if (board_size % 2 == 0){
-			completeTile temp = tiles.get((board_size * board_size) - 2);
-			completeTile temp1 = tiles.get((board_size * board_size) - 3);
+			CompleteTile temp = tiles.get((board_size * board_size) - 2);
+			CompleteTile temp1 = tiles.get((board_size * board_size) - 3);
 			tiles.set((board_size * board_size) - 2, temp1);
 			tiles.set((board_size * board_size) - 3, temp);
 		}
@@ -331,8 +332,8 @@ public class GamePlay extends ActionBarActivity {
 		if ((position - 1 == blank_location) & ((position)%cur_level != 0)){
 			
 			// if so, swap tiles in arraylist
-			completeTile temp = tiles.get(position);
-			completeTile temp1 = tiles.get(position - 1);
+			CompleteTile temp = tiles.get(position);
+			CompleteTile temp1 = tiles.get(position - 1);
 			tiles.set(position, temp1);
 			tiles.set(position - 1, temp);
 			
@@ -350,8 +351,8 @@ public class GamePlay extends ActionBarActivity {
 		else if ((position + 1 == blank_location) & ((position + 1)%cur_level != 0)){
 			
 			// if so, swap tiles in arraylist
-			completeTile temp = tiles.get(position);
-			completeTile temp1 = tiles.get(position + 1);
+			CompleteTile temp = tiles.get(position);
+			CompleteTile temp1 = tiles.get(position + 1);
 			tiles.set(position, temp1);
 			tiles.set(position + 1, temp);
 			
@@ -369,8 +370,8 @@ public class GamePlay extends ActionBarActivity {
 		else if (position - cur_level == blank_location){
 			
 			// if so, swap tiles in arraylist
-			completeTile temp = tiles.get(position);
-			completeTile temp1 = tiles.get(position - cur_level);
+			CompleteTile temp = tiles.get(position);
+			CompleteTile temp1 = tiles.get(position - cur_level);
 			tiles.set(position, temp1);
 			tiles.set(position - cur_level, temp);
 			
@@ -388,8 +389,8 @@ public class GamePlay extends ActionBarActivity {
 		else if (position + cur_level == blank_location){
 			
 			// if so, swap tiles in arraylist
-			completeTile temp = tiles.get(position);
-			completeTile temp1 = tiles.get(position + cur_level);
+			CompleteTile temp = tiles.get(position);
+			CompleteTile temp1 = tiles.get(position + cur_level);
 			tiles.set(position, temp1);
 			tiles.set(position + cur_level, temp);
 			
@@ -423,7 +424,7 @@ public class GamePlay extends ActionBarActivity {
     	for(int i = 0; i < tiles.size(); i++)
     	{
     	    // store the tile numbers in saving order
-    		completeTile t = tiles.get(i);
+    		CompleteTile t = tiles.get(i);
     	    int n = t.number;
     	    sEdit.putInt("num" + i, n); 
     	}
@@ -469,19 +470,19 @@ public class GamePlay extends ActionBarActivity {
             for (int k = 0; k < tiles.size(); k++){
 
             	// check whether the number of tile list and orderlist match
-            	completeTile t = tiles.get(k);
+            	CompleteTile t = tiles.get(k);
             	int saved_num = orderlist.get(k);
             	if (t.number != saved_num){
             		
             		// if they do not match, search for the correct tile
             		for (int l = 0; l < tiles.size(); l++){
             			
-            			completeTile t1 = tiles.get(l);
+            			CompleteTile t1 = tiles.get(l);
             			if (t1.number == saved_num){
             				
             				// swap tiles in tiles arraylist
-            				completeTile temp1 = tiles.get(l);
-            				completeTile temp2 = tiles.get(k);
+            				CompleteTile temp1 = tiles.get(l);
+            				CompleteTile temp2 = tiles.get(k);
             				tiles.set(k, temp1);
             				tiles.set(l, temp2);
             			}
@@ -571,6 +572,7 @@ public class GamePlay extends ActionBarActivity {
 			// create intent quitgame and start activity
 	    	Intent intentImageSelection = new Intent(this, QuitGame.class);
 	    	startActivity(intentImageSelection);
+	    	recycleBitmaps();
 	    	finish();
 		}
 		
@@ -580,9 +582,19 @@ public class GamePlay extends ActionBarActivity {
 			// create new intent gameplay and start activity
 			Intent intentGamePlay = new Intent(this, GamePlay.class);
 			startActivity(intentGamePlay);
+			recycleBitmaps();
 			finish();
 			
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void recycleBitmaps(){
+		
+		// recycle bitmaps
+        for(int j = 0; j < tiles.size(); j++){
+        	CompleteTile tile = tiles.get(j);
+        	tile.bitmap.recycle();
+        }
 	}
 }
