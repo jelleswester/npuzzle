@@ -77,35 +77,40 @@ private void getImage(int image_id){
 		int image = image_id;
 		
 		// using image id, store corresponding image in bitmap picture
-		if (image == 0){
+		switch (image) {
+		case 0:
 			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_0);
-		}
-		else if (image == 1){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_1);
-		}
-		else if (image == 2){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_2);
-		}
-		else if (image == 3){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_3);
-		}
-		else if (image == 4){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_4);
-		}
-		else if (image == 5){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_5);
-		}
-		else if (image == 6){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_6);
-		}
-		else if (image == 7){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_7);
-		}
-		else if (image == 8){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_8);
-		}
-		else if (image == 9){
-			picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_9);
+			break;
+        case 1:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_1);
+        	break;
+        case 2:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_2);
+        	break;
+        case 3:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_3);
+        	break;
+        case 4:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_4);
+        	break;
+        case 5:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_5);
+        	break;
+        case 6:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_6);
+        	break;
+        case 7:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_7);
+        	break;
+        case 8:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_8);
+        	break;
+        case 9:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_9);
+        	break;
+        default:
+        	picture = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_0);
+			break;
 		}
 	}
 }
